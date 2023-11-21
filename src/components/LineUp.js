@@ -8,7 +8,7 @@ import SaveButton from './SaveButton';
 import "./LineUp.css";
 
 const LineUp = (props) => {
-
+    // DEBUG: add maxium of 11 players selected
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);

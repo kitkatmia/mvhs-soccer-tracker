@@ -15,7 +15,7 @@ const TimeButton = ({ eventName, onClick }) => {
 
     return (
         <Button variant="outlined" color="error" style={{ width: '200px', minWidth: "100px", marginRight: "10vh" }} className="" onClick={() => { handleClick() }}>
-            {eventName} Game
+            {eventName}
         </Button >
     )
 }

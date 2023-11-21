@@ -2,6 +2,8 @@ import { React } from 'react';
 import Button from '@mui/material/Button';
 import "./SaveButton.css"
 
+
+
 const SaveButton = ({ eventName, event, onClick }) => {
     const handleClick = () => {
         onClick();
@@ -20,5 +22,11 @@ const SaveButton = ({ eventName, event, onClick }) => {
         </Button >
     )
 }
+
+// return (
+//     <Button variant="contained" color="success" style={{ width: "150px", position: "absolute", right: "0", bottom: "0", marginRight: "50px", marginBottom: "10px" }} className="lineup" onClick={onClick()}>
+//         Save Changes
+//     </Button >
+// )
 
 export default SaveButton;
