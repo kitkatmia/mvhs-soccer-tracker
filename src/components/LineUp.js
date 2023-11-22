@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
@@ -6,14 +6,33 @@ import PlayerCircle from './PlayerCircle';
 import players from "../data/players.json";
 import SaveButton from './SaveButton';
 import "./LineUp.css";
+import playersOnField from '../contexts/GlobalCurrentPlayers';
+import playersJSON from "../data/players.json"
 
 const LineUp = (props) => {
     // DEBUG: add maxium of 11 players selected
+    const [saveClicked, setSaveClicked] = useState(false);
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleClose = () => {
+        setOpen(false)
+    };
 
     const [selectedNames, setSelectedNames] = useState([]);
+
+    useEffect(() => {
+        if (saveClicked) {
+            const toDictionary = (valuesList) => {
+                console.log("values list: ", valuesList)
+                let d = [];
+                for (let i = 0; i < valuesList.length; i++) {
+                    d = [...d, playersJSON.find(row => Object.keys(row)[0] === valuesList[i])]
+                }
+                return d;
+            }
+            playersOnField.setAll(toDictionary(selectedNames));
+        }
+    }, [saveClicked, selectedNames])
 
     const handlePlayerClick = (playerName) => {
         const playerIdx = selectedNames.indexOf(playerName);
@@ -59,7 +78,7 @@ const LineUp = (props) => {
                             </div>
                         ))}
                     </div>
-                    <SaveButton buttonClass="lineup" eventName={props.eventName} event={selectedNames} onClick={() => handleClose()} />
+                    <SaveButton buttonClass="lineup" eventName={props.eventName} event={selectedNames} onClick={() => { setSaveClicked(true); handleClose(); }} />
                 </Box>
             </Modal>
         </div>

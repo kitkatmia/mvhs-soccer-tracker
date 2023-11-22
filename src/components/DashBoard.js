@@ -1,10 +1,11 @@
 import { React } from 'react';
 import Button from '@mui/material/Button';
 import "./SaveButton.css"
+import { Dashboard } from '@mui/icons-material';
 
 
 
-const SaveButton = ({ eventName, event, onClick, eventName2 = null, event2 = null }) => {
+const Dashboard = ({ eventName, event, onClick, eventName2 = null, event2 = null }) => {
     const handleClick = () => {
         console.log("eventname: ", eventName, " event: ", event)
         console.log("eventname2: ", eventName2, " event: ", event2)
@@ -35,4 +36,4 @@ const SaveButton = ({ eventName, event, onClick, eventName2 = null, event2 = nul
 //     </Button >
 // )
 
-export default SaveButton;
+export default Dashboard;
