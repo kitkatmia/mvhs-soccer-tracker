@@ -11,6 +11,7 @@ import DoubleModal from './components/DoubleModal';
 import DoubleModal2 from './components/DoubleModal2';
 
 import playersOnField from './contexts/GlobalCurrentPlayers';
+import SaveButton from './components/SaveButton';
 
 function App() {
   const [data, setData] = useState({});
@@ -59,8 +60,8 @@ function App() {
 
     // iterates through keys, save in storage
     for (let i = 0; i < localStorage.length; i++) {
-      console.log('key: ', localStorage[i], " val: ", JSON.parse(localStorage.getItem(localStorage[i])))
       const key = localStorage.key(i);
+      console.log('key: ', key, " val: ", JSON.parse(localStorage.getItem(key)))
       localStorageData[key] = JSON.parse(localStorage.getItem(key));
     }
 
@@ -76,14 +77,14 @@ function App() {
     a.href = url;
     a.download = fileName + '.json';
 
-    // append the anchor to the body and trigger a click to start the download
+    // // append the anchor to the body and trigger a click to start the download
     // document.body.appendChild(a);
     // a.click();
 
-    // remove the temporary anchor
+    // // remove the temporary anchor
     // document.body.removeChild(a);
 
-    // rRevoke the Blob URL to free up resources
+    // // revoke the Blob URL to free up resources
     // URL.revokeObjectURL(url);
   };
 
@@ -157,6 +158,9 @@ function App() {
         </Grid>
         <Grid item>
           <DoubleModal2 eventName={process.env.REACT_APP_SUB_IN_EVENT} eventName2={process.env.REACT_APP_SUB_OUT_EVENT} type={process.env.REACT_APP_SUB_TYPE} descriptionPanel1="Select Player to Sub In" descriptionPanel2="Select Player to Sub Out" color="secondary" buttonStyle={{ width: '200px', minWidth: "100px", marginRight: "10vh" }} />
+        </Grid>
+        <Grid item>
+          <SaveButton eventName={process.env.REACT_APP_GK_SAVE_EVENT} event={() => playersOnField.getGoalie()} text={process.env.REACT_APP_GK_SAVE_EVENT} formatingDefault={false} />
         </Grid>
       </Grid>
     </div >

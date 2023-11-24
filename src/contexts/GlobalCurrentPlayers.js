@@ -2,7 +2,14 @@ import JSONplayers from "../data/players.json"
 
 class GlobalCurrentPlayers {
     constructor() {
+        // DEBUG: currentGoalie isn't updating
         this.playersOn = [];
+        this.goalies = ["Player 1", "Player 2"];
+        this.currentGoalie = "Player 1";
+    }
+
+    getGoalie() {
+        return this.currentGoalie;
     }
 
     setAll(lineUp) {
@@ -11,6 +18,14 @@ class GlobalCurrentPlayers {
 
             if (isValidLineUp) {
                 this.playersOn = lineUp;
+                for (let i = 0; i < this.goalies.length; i++) {
+                    console.log("doguriogwehrg     ", this.playersOn.map(player => Object.keys(player)[0]))
+                    if (this.playersOn.map(player => Object.keys(player)[0]).includes(this.goalies[i])) {
+                        this.currentGoalie = this.goalies[i];
+                        console.log('\n\nincludes, new goalies: ', this.currentGoalie, "\n\n")
+                        break;
+                    }
+                }
             } else {
                 console.error("Invalid lineup format. Ensure each player is an object with keys.");
             }
@@ -45,7 +60,6 @@ class GlobalCurrentPlayers {
     swapPlayers(subOutP, subInP) {
         // DEBUG: for some reason if this.playersOn is printed, one of the values is of the format ['Player 6', 'p4.jpeg'], instead of {}, but it still seems to be working for now, and if I try to fix the issue with another function is says it doesn't exist??
         // this.checkAndFixListIssue()
-        console.log("Original field players: ", this.playersOn)
         const fieldPlayers = this.playersOn.map(player => Object.keys(player)[0]);
         // console.log("soooo players.ON should be the same: ", this.playersOn)
         const index = fieldPlayers.findIndex(player => player === subOutP);
@@ -54,7 +68,9 @@ class GlobalCurrentPlayers {
             // Find the profile of the target player using the find method
             const targetProfile = Object.entries(JSONplayers).find(([key, value]) => key === subInP)
             this.playersOn[index] = { [targetProfile[0]]: targetProfile[1] };
-            console.log("New field players: ", this.playersOn)
+            if (this.goalies.includes(subOutP) && this.goalies.includes(subInP)) {
+                this.currentGoalie = subInP;
+            }
         } else {
             console.log("\n\n keys", this.playersOn.map(player => Object.keys(player)[0]))
             console.log("uh oh. didn't find player on the field...")
