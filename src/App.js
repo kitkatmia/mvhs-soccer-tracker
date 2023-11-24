@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import './App.css';
+// data
+import playersOnField from './contexts/GlobalCurrentPlayers';
 import spartansLogo from './images/spartansLogo.png';
-// import Button from '@mui/material/Button';
+// components
 import Grid from '@mui/material/Grid';
 import LineUp from './components/LineUp';
-import gameDates from "./data/game_dates.json"
+import gameDates from "./data/game_dates.json";
 import TimeButton from './components/TimeButton';
-import './App.css';
 import { Button } from '@mui/material';
 import DoubleModal from './components/DoubleModal';
-import DoubleModal2 from './components/DoubleModal2';
+// theme
+import { ThemeProvider } from '@mui/material/styles';
+import customTheme from "./utils/Theme.js"
 
-import playersOnField from './contexts/GlobalCurrentPlayers';
-import SaveButton from './components/SaveButton';
 
 function App() {
   const [data, setData] = useState({});
@@ -51,6 +53,16 @@ function App() {
       setNotStarted(false);
     } else {
       downloadLocalStorage();
+    }
+  }
+
+  const handleGKClick = () => {
+    const timestamp = new Date().getTime()
+    const jsonData = { "Event": process.env.REACT_APP_GK_SAVE_EVENT, "Description": playersOnField.getGoalie() };
+    localStorage.setItem(timestamp, JSON.stringify(jsonData));
+    for (var i = 0; i < localStorage.length; i++) {
+      console.log("In app.js button. Saving gk event: ")
+      console.log("key: ", localStorage.key(i), " val: ", localStorage.getItem(localStorage.key(i)))
     }
   }
 
@@ -115,55 +127,58 @@ function App() {
   }
 
   return (
-    <div>
-      <div style={{ display: "flex", flexDirection: 'row' }}>
-        <div style={{ alignItems: 'center' }}>
-          {/* fix spacing so it's dynamic and fits on phone */}
-          <img src={spartansLogo} alt="spartans-logo" style={{ width: 50, height: 50, marginRight: 220, marginLeft: 10, marginTop: 10 }} />
+    <ThemeProvider theme={customTheme}>
+      <div>
+        <div style={{ display: "flex", flexDirection: 'row' }}>
+          <div style={{ alignItems: 'center' }}>
+            {/* fix spacing so it's dynamic and fits on phone */}
+            <img src={spartansLogo} alt="spartans-logo" style={{ width: 50, height: 50, marginRight: 220, marginLeft: 10, marginTop: 10 }} />
+          </div>
+          <h1 style={{ justifyContent: 'center' }}>Spartan Soccer Tracking App</h1>
         </div>
-        <h1 style={{ justifyContent: 'center' }}>Spartan Soccer Tracking App</h1>
-      </div>
-      <Grid container justifyContent="center" alignItems="center" rowSpacing={1}>
-        {notStarted &&
+        <Grid container justifyContent="center" alignItems="center" rowSpacing={1}>
+          {notStarted &&
+            <Grid item>
+              <TimeButton eventName={process.env.REACT_APP_START_EVENT} onClick={() => handleStartAndStop()} />
+            </Grid>
+          }
+          {!notStarted &&
+            <Grid item>
+              <TimeButton eventName={process.env.REACT_APP_END_EVENT} onClick={() => handleStartAndStop()} />
+            </Grid>
+          }
+          {!paused &&
+            <Grid item>
+              <TimeButton eventName={process.env.REACT_APP_PAUSE_EVENT} onClick={() => handlePause()} />
+            </Grid>
+          }
+          {paused &&
+            <Grid item>
+              <TimeButton eventName={process.env.REACT_APP_UNPAUSE_EVENT} onClick={() => handlePause()} />
+            </Grid>
+          }
           <Grid item>
-            <TimeButton eventName={process.env.REACT_APP_START_EVENT} onClick={() => handleStartAndStop()} />
+            <LineUp eventName={process.env.REACT_APP_LINEUP_EVENT_1} type="Select First-Half Line Up" description="Click to select starters" color="primary" buttonStyle={{ width: '200px', minWidth: "100px", marginRight: "10vh" }} />
           </Grid>
-        }
-        {!notStarted &&
           <Grid item>
-            <TimeButton eventName={process.env.REACT_APP_END_EVENT} onClick={() => handleStartAndStop()} />
+            <LineUp eventName={process.env.REACT_APP_LINEUP_EVENT_2} type="Select Second-Half Line Up" description="Click to select starters" color="secondary" buttonStyle={{ width: '200px', minWidth: "100px", marginRight: "10vh" }} />
           </Grid>
-        }
-        {!paused &&
           <Grid item>
-            <TimeButton eventName={process.env.REACT_APP_PAUSE_EVENT} onClick={() => handlePause()} />
+            <Button variant="outlined" color="error" style={{ width: "250px" }} onClick={() => handleRevert()}>Revert last action</Button>
           </Grid>
-        }
-        {paused &&
           <Grid item>
-            <TimeButton eventName={process.env.REACT_APP_UNPAUSE_EVENT} onClick={() => handlePause()} />
+            <DoubleModal eventName={process.env.REACT_APP_GOAL_EVENT} eventName2={process.env.REACT_APP_ASSIST_EVENT} type={process.env.REACT_APP_GOAL_TYPE} descriptionPanel1="Select Goal Scorer" descriptionPanel2="Select assister" color="secondary" buttonStyle={{ width: '200px', minWidth: "100px", marginRight: "10vh" }} />
           </Grid>
-        }
-        <Grid item>
-          <LineUp eventName={process.env.REACT_APP_LINEUP_EVENT_1} type="Select First-Half Line Up" description="Click to select starters" color="primary" buttonStyle={{ width: '200px', minWidth: "100px", marginRight: "10vh" }} />
+          <Grid item>
+            <DoubleModal eventName={process.env.REACT_APP_SUB_IN_EVENT} eventName2={process.env.REACT_APP_SUB_OUT_EVENT} type={process.env.REACT_APP_SUB_TYPE} descriptionPanel1="Select Player to Sub In" descriptionPanel2="Select Player to Sub Out" color="secondary" buttonStyle={{ width: '200px', minWidth: "100px", marginRight: "10vh" }} />
+          </Grid>
+          <Grid item>
+            {/* custom theme example below */}
+            <Button variant="contained" color="violet" onClick={handleGKClick}>GK Save</Button>
+          </Grid>
         </Grid>
-        <Grid item>
-          <LineUp eventName={process.env.REACT_APP_LINEUP_EVENT_2} type="Select Second-Half Line Up" description="Click to select starters" color="secondary" buttonStyle={{ width: '200px', minWidth: "100px", marginRight: "10vh" }} />
-        </Grid>
-        <Grid item>
-          <Button variant="outlined" color="error" style={{ width: "250px" }} onClick={() => handleRevert()}>Revert last action</Button>
-        </Grid>
-        <Grid item>
-          <DoubleModal2 eventName={process.env.REACT_APP_GOAL_EVENT} eventName2={process.env.REACT_APP_ASSIST_EVENT} type={process.env.REACT_APP_GOAL_TYPE} descriptionPanel1="Select Goal Scorer" descriptionPanel2="Select assister" color="secondary" buttonStyle={{ width: '200px', minWidth: "100px", marginRight: "10vh" }} />
-        </Grid>
-        <Grid item>
-          <DoubleModal2 eventName={process.env.REACT_APP_SUB_IN_EVENT} eventName2={process.env.REACT_APP_SUB_OUT_EVENT} type={process.env.REACT_APP_SUB_TYPE} descriptionPanel1="Select Player to Sub In" descriptionPanel2="Select Player to Sub Out" color="secondary" buttonStyle={{ width: '200px', minWidth: "100px", marginRight: "10vh" }} />
-        </Grid>
-        <Grid item>
-          <SaveButton eventName={process.env.REACT_APP_GK_SAVE_EVENT} event={() => playersOnField.getGoalie()} text={process.env.REACT_APP_GK_SAVE_EVENT} formatingDefault={false} />
-        </Grid>
-      </Grid>
-    </div >
+      </div >
+    </ThemeProvider>
   );
 }
 

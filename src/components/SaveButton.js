@@ -4,13 +4,13 @@ import "./SaveButton.css"
 
 
 
-const SaveButton = ({ eventName, event, onClick = null, eventName2 = null, event2 = null, condition = true, text = "Save Changes", formatingDefault = true }) => {
+const SaveButton = ({ eventName, event, onClick = null, eventName2 = null, event2 = null, condition = true }) => {
     // DEBUG: does condition need to be there...
     const handleClick = () => {
-        console.log("eventname: ", eventName, " event: ", event)
-        if (eventName2) {
-            console.log("eventname2: ", eventName2, " event: ", event2)
-        }
+        // console.log("eventname: ", eventName, " event: ", event)
+        // if (eventName2) {
+        //     console.log("eventname2: ", eventName2, " event: ", event2)
+        // }
         if (onClick !== null) {
             onClick();
         }
@@ -28,8 +28,8 @@ const SaveButton = ({ eventName, event, onClick = null, eventName2 = null, event
     };
 
     return (
-        <Button variant="contained" color="success" style={formatingDefault ? { width: "150px", position: "absolute", right: "0", bottom: "0", marginRight: "20px", marginBottom: "10px" } : null} className="lineup" onClick={condition ? handleClick : null}>
-            {text}
+        <Button variant="contained" color="success" style={{ width: "150px", position: "absolute", right: "0", bottom: "0", marginRight: "20px", marginBottom: "10px" }} className="lineup" onClick={condition ? handleClick : null}>
+            Save Changes
         </Button >
     )
 }

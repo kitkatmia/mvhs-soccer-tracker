@@ -13,21 +13,67 @@ const DoubleModal = (props) => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const [showModal2, setShowModal2] = useState(false);
-    const [screen2Player, setScreen2Player] = useState("");
-    const [screen1Player, setScreen1Player] = useState("");
+    const [selectedPLayersS2, setSelectedPlayersS2] = useState([]); // list of names
+    const [selectedPLayersS1, setSelectedPlayersS1] = useState([]);
     // const [players, setPlayers] = useState({})
     const [playersScreen2, setPlayersScreen2] = useState({})
     const [playersScreen1, setPlayersScreen1] = useState({})
     const emptyText = "No players selected in lineup."
 
+    // const checkIfIncluded = (player) => {
+    //     if (showModal2) {
+    //         if (props.type === process.env.REACT_APP_GOAL_TYPE) {
+    //             return selectedPLayersS2 === player;
+    //         } else if (props.type === process.env.REACT_APP_SUB_TYPE) {
+    //             return selectedPLayersS2.includes(player);
+    //         }
+    //     } else {
+    //         if (props.type === process.env.REACT_APP_GOAL_TYPE) {
+    //             return selectedPLayersS1 === player;
+    //         } else if (props.type === process.env.REACT_APP_SUB_TYPE) {
+    //             return selectedPLayersS1.includes(player);
+    //         }
+    //     }
+    //     // showModal2 ? selectedPLayersS2.includes(player[0]) : selectedPLayersS1.includes(player[0])
+    // }
     const handleScreen2Click = (playerName) => {
-        // DEBUG: high-key buggy --> sometimes on de-select, can't reselect some profiles until many clicks (not sure why, most likely interplay between isSelected and isClicked field)
-        // DEBUG: conssirnley takes 2 clicks to hgihlight name clicked
-        setScreen2Player(playerName);
+        if (props.type === process.env.REACT_APP_GOAL_TYPE) {
+            setSelectedPlayersS2([playerName])
+        } else if (props.type === process.env.REACT_APP_SUB_TYPE) {
+            const playerIdx = selectedPLayersS2.indexOf(playerName);
+
+            if (playerIdx !== -1) {
+                // if in array, remove
+                const updatedNames = [...selectedPLayersS2];
+                updatedNames.splice(playerIdx, 1);
+                setSelectedPlayersS2(updatedNames);
+            } else {
+                // if not in array, add
+                setSelectedPlayersS2([...selectedPLayersS2, playerName]);
+            }
+        }
     }
 
     const handleScreen1Click = (playerName) => {
-        setScreen1Player(playerName)
+        if (props.type === process.env.REACT_APP_GOAL_TYPE) {
+            setSelectedPlayersS1([playerName])
+        } else if (props.type === process.env.REACT_APP_SUB_TYPE) {
+            const playerIdx = selectedPLayersS1.indexOf(playerName);
+
+            if (playerIdx !== -1) {
+                // if in array, remove
+                const updatedNames = [...selectedPLayersS1];
+                updatedNames.splice(playerIdx, 1);
+                setSelectedPlayersS1(updatedNames);
+            } else {
+                // if not in array, add
+                setSelectedPlayersS1([...selectedPLayersS1, playerName])
+            }
+        }
+
+    }
+
+    const handleForwardClick = () => {
         setShowModal2(true);
     }
 
@@ -35,11 +81,20 @@ const DoubleModal = (props) => {
         setShowModal2(false);
     }
 
+
     useEffect(() => {
         if (saveClicked && props.type === process.env.REACT_APP_SUB_TYPE) {
-            playersOnField.swapPlayers(screen2Player, screen1Player);
+            if (selectedPLayersS2.length !== selectedPLayersS1.length) {
+                console.log("blud you need to select the same number of people for each")
+            } else {
+                for (let i = 0; i < selectedPLayersS1.length; i++) {
+                    playersOnField.swapPlayers(selectedPLayersS2[i], selectedPLayersS1[i]);
+                }
+            }
         }
         setShowModal2(false);
+        // need the below line to remove warning about dependency array
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [saveClicked])
 
     useEffect(() => {
@@ -49,31 +104,19 @@ const DoubleModal = (props) => {
                 setPlayersScreen2(playersOnField.get());
             } else {
                 setPlayersScreen1(playersOnField.get());
-                setPlayersScreen2(playersScreen1)
+                setPlayersScreen2(playersOnField.get());
             }
-            // DEBUG: revert doesn't work with this (adds previous and new names... although previous names shouldn't be in local storage) --> solution may be related to using useEffect or useSyncExternalStore
-            // for (let i = 0; i < localStorage.length; i++) {
-            //     const key = localStorage.key(i);
-            //     console.log('key: ', key, " val: ", JSON.parse(localStorage.getItem(key)))
-            //     const valuesDict = JSON.parse(localStorage.getItem(key)) || {}
-            //     if (valuesDict["Event"] === process.env.REACT_APP_LINEUP_EVENT_2) {
-            //         console.log("equal to half 2, ", toDictionary(valuesDict["Description"]))
-            //         setPlayers(toDictionary(valuesDict["Description"]));
-            //         return;
-            //     } else if (valuesDict["Event"] === process.env.REACT_APP_LINEUP_EVENT_1) {
-            //         console.log("equal to half 1")
-            //         setPlayers(toDictionary(valuesDict["Description"]));
-            //     } else {
-            //         setPlayers({});
-            //     }
-            // }
         };
 
         if (open) {
+            // need to reset all of these so the next time that it opens everything works
             getStarters();
+            setSelectedPlayersS2([]);
+            setSelectedPlayersS1([]);
+            setSaveClicked(false);
         }
-
-    }, [open]); // DEBUG: not sure that I need dependencies
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [open]);
 
     const style = {
         position: 'absolute',
@@ -97,26 +140,36 @@ const DoubleModal = (props) => {
                 <Box sx={style}>
                     <h2 style={{ textAlign: "center", marginTop: 0, marginBottom: 10 }}>{showModal2 ? props.descriptionPanel2 : props.descriptionPanel1}</h2>
                     {/* players */}
-                    <div className={playersScreen1.length > 0 ? "grid" : ""} style={{}}>
-                        {playersScreen1.length > 0 ? ((showModal2 ? playersScreen2 : playersScreen1).map((player, playerIndex) => (
-                            <div key={playerIndex}>
-                                {Object.keys(player).map((key, valueIndex) => (
-                                    <PlayerCircle class="grid-item" key={valueIndex} playerName={key} playerImage={player[key]} onClickCallback={showModal2 ? handleScreen2Click : handleScreen1Click} isSelected={screen2Player === key} />
-                                ))}
-                            </div>
-                        ))) : <p style={{
-                            width: "100%", display: "flex", justifyContent: "center", alignItems: "center"
-                        }}>{emptyText}</p>}
+                    <div className={playersScreen1 ? "grid" : ""} style={{}}>
+                        <>
+                            {!showModal2 && playersScreen1 &&
+                                <Button variant="contained" color="success" style={{ width: "150px", position: "absolute", right: "0", bottom: "0", marginRight: "20px", marginBottom: "10px" }} onClick={handleForwardClick}>Next</Button>
+                            }
+                            {playersScreen1 ? (Object.entries(showModal2 ? playersScreen2 : playersScreen1).map((player, playerIndex) => ( // note: players = [key, value]
+                                <div key={playerIndex}>
+                                    <PlayerCircle class="grid-item" key={playerIndex} playerName={player[0]} playerImage={player[1]} onClickCallback={showModal2 ? handleScreen2Click : handleScreen1Click} isSelected={showModal2 ? selectedPLayersS2.includes(player[0]) : selectedPLayersS1.includes(player[0])} />
+                                </div>
+                            ))) : <p style={{
+                                width: "100%", display: "flex", justifyContent: "center", alignItems: "center"
+                            }}>{emptyText}</p>}
+                        </>
                     </div>
                     {showModal2 &&
                         <>
-                            <SaveButton buttonClass="lineup" eventName={props.eventName} eventName2={props.eventName2} event={screen1Player} event2={screen2Player} onClick={() => { setSaveClicked(true); handleClose(); }} />
+                            <SaveButton buttonClass="lineup" eventName={props.eventName} eventName2={props.eventName2} event={selectedPLayersS1} event2={selectedPLayersS2} onClick={() => {
+                                if (selectedPLayersS2.length === selectedPLayersS1.length) {
+                                    setSaveClicked(true);
+                                    handleClose();
+                                } else {
+                                    console.log("not saving because not equal selected")
+                                }
+                            }} condition={selectedPLayersS2.length === selectedPLayersS1.length} />
                             <BackButton onClick={() => handleBackClick()} />
                         </>
                     }
                 </Box>
             </Modal>
-        </div>
+        </div >
     )
 }
 
