@@ -40,7 +40,7 @@ const DoubleModal = (props) => {
             playersOnField.swapPlayers(screen2Player, screen1Player);
         }
         setShowModal2(false);
-    }, [saveClicked, playersScreen1, playersScreen2])
+    }, [saveClicked])
 
     useEffect(() => {
         const getStarters = () => {
@@ -69,7 +69,10 @@ const DoubleModal = (props) => {
             // }
         };
 
-        getStarters();
+        if (open) {
+            getStarters();
+        }
+
     }, [open]); // DEBUG: not sure that I need dependencies
 
     const style = {

@@ -8,6 +8,8 @@ import TimeButton from './components/TimeButton';
 import './App.css';
 import { Button } from '@mui/material';
 import DoubleModal from './components/DoubleModal';
+import DoubleModal2 from './components/DoubleModal2';
+
 import playersOnField from './contexts/GlobalCurrentPlayers';
 
 function App() {
@@ -151,10 +153,10 @@ function App() {
           <Button variant="outlined" color="error" style={{ width: "250px" }} onClick={() => handleRevert()}>Revert last action</Button>
         </Grid>
         <Grid item>
-          <DoubleModal eventName={process.env.REACT_APP_GOAL_EVENT} eventName2={process.env.REACT_APP_ASSIST_EVENT} type={process.env.REACT_APP_GOAL_TYPE} descriptionPanel1="Select Goal Scorer" descriptionPanel2="Select assister" color="secondary" buttonStyle={{ width: '200px', minWidth: "100px", marginRight: "10vh" }} />
+          <DoubleModal2 eventName={process.env.REACT_APP_GOAL_EVENT} eventName2={process.env.REACT_APP_ASSIST_EVENT} type={process.env.REACT_APP_GOAL_TYPE} descriptionPanel1="Select Goal Scorer" descriptionPanel2="Select assister" color="secondary" buttonStyle={{ width: '200px', minWidth: "100px", marginRight: "10vh" }} />
         </Grid>
         <Grid item>
-          <DoubleModal eventName={process.env.REACT_APP_SUB_IN_EVENT} eventName2={process.env.REACT_APP_SUB_OUT_EVENT} type={process.env.REACT_APP_SUB_TYPE} descriptionPanel1="Select Player to Sub In" descriptionPanel2="Select Player to Sub Out" color="secondary" buttonStyle={{ width: '200px', minWidth: "100px", marginRight: "10vh" }} />
+          <DoubleModal2 eventName={process.env.REACT_APP_SUB_IN_EVENT} eventName2={process.env.REACT_APP_SUB_OUT_EVENT} type={process.env.REACT_APP_SUB_TYPE} descriptionPanel1="Select Player to Sub In" descriptionPanel2="Select Player to Sub Out" color="secondary" buttonStyle={{ width: '200px', minWidth: "100px", marginRight: "10vh" }} />
         </Grid>
       </Grid>
     </div >

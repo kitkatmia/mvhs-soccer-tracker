@@ -22,15 +22,25 @@ const LineUp = (props) => {
 
     useEffect(() => {
         if (saveClicked) {
-            const toDictionary = (valuesList) => {
-                console.log("values list: ", valuesList)
-                let d = [];
-                for (let i = 0; i < valuesList.length; i++) {
-                    d = [...d, playersJSON.find(row => Object.keys(row)[0] === valuesList[i])]
+            // const toDictionary = (valuesList) => {
+            //     console.log("values list: ", valuesList)
+            //     let d = [];
+            //     for (let i = 0; i < valuesList.length; i++) {
+            //         d = [...d, playersJSON.find(row => Object.keys(row) === valuesList[i])] // JSON STRUCT
+            //     }
+            //     return d;
+            // }
+            const toArrayOfDicts = (names) => {
+                let arr = [];
+                for (let i = 0; i < names.length; i++) {
+                    let obj = { [names[i]]: playersJSON[names[i]] }; // extra brackets around names key is weird js syntax
+                    arr = [...arr, obj]
                 }
-                return d;
+                return arr;
             }
-            playersOnField.setAll(toDictionary(selectedNames));
+            // toDictionary of selected names = return a list of all names in selected names
+            const fieldArr = toArrayOfDicts(selectedNames);
+            playersOnField.setAll(toArrayOfDicts(selectedNames));
         }
     }, [saveClicked, selectedNames])
 
@@ -70,12 +80,15 @@ const LineUp = (props) => {
                 <Box sx={style}>
                     <h2 style={{ textAlign: "center", marginTop: 0, marginBottom: 10 }}>{props.description}</h2>
                     <div className="grid" style={{}}>
-                        {players.map((player, playerIndex) => (
+                        {Object.keys(playersJSON).map((key, playerIndex) => (
                             <div key={playerIndex}>
-                                {Object.keys(player).map((key, valueIndex) => (
-                                    <PlayerCircle class="grid-item" key={valueIndex} playerName={key} playerImage={player[key]} onClickCallback={handlePlayerClick} />
-                                ))}
+                                <PlayerCircle class="grid-item" key={playerIndex} playerName={key} playerImage={playersJSON[key]} onClickCallback={handlePlayerClick} isSelected={selectedNames.includes(key)} />
                             </div>
+                            // <div key={playerIndex}>
+                            //     {Object.keys(player).map((key, valueIndex) => (
+                            //         <PlayerCircle class="grid-item" key={valueIndex} playerName={key} playerImage={player[key]} onClickCallback={handlePlayerClick} isSelected={selectedNames.includes(key)} />
+                            //     ))}
+                            // </div>
                         ))}
                     </div>
                     <SaveButton buttonClass="lineup" eventName={props.eventName} event={selectedNames} onClick={() => { setSaveClicked(true); handleClose(); }} />

@@ -1,10 +1,11 @@
-import { React, useState } from 'react';
+import { React } from 'react';
 
-const PlayerCircle = ({ playerName, playerImage, onClickCallback, isSelected = true }) => {
-    const [isClicked, setIsClicked] = useState(false);
+const PlayerCircle = ({ playerName, playerImage, onClickCallback, isSelected = false }) => {
+    // is selected was default true
+    // const [isClicked, setIsClicked] = useState(false);
 
     const handleClick = () => {
-        setIsClicked(!isClicked);
+        // setIsClicked(!isClicked);
         onClickCallback(playerName);
     };
 
@@ -14,7 +15,7 @@ const PlayerCircle = ({ playerName, playerImage, onClickCallback, isSelected = t
         height: 50,
         marginTop: 15,
         padding: "3px",
-        border: (isSelected && isClicked) ? "5px solid red" : "5px solid transparent",
+        border: isSelected ? "5px solid red" : "5px solid transparent",
     };
 
     const imgUrl = process.env.PUBLIC_URL + '/images/' + playerImage;

@@ -4,10 +4,12 @@ import "./SaveButton.css"
 
 
 
-const SaveButton = ({ eventName, event, onClick, eventName2 = null, event2 = null }) => {
+const SaveButton = ({ eventName, event, onClick, eventName2 = null, event2 = null, condition = true }) => {
     const handleClick = () => {
         console.log("eventname: ", eventName, " event: ", event)
-        console.log("eventname2: ", eventName2, " event: ", event2)
+        if (eventName2) {
+            console.log("eventname2: ", eventName2, " event: ", event2)
+        }
         onClick();
         const timestamp = new Date().getTime()
         const jsonData = { "Event": eventName, "Description": event };
@@ -23,7 +25,7 @@ const SaveButton = ({ eventName, event, onClick, eventName2 = null, event2 = nul
     };
 
     return (
-        <Button variant="contained" color="success" style={{ width: "150px", position: "absolute", right: "0", bottom: "0", marginRight: "20px", marginBottom: "10px" }} className="lineup" onClick={handleClick}>
+        <Button variant="contained" color="success" style={{ width: "150px", position: "absolute", right: "0", bottom: "0", marginRight: "20px", marginBottom: "10px" }} className="lineup" onClick={condition ? handleClick : null}>
             Save Changes
         </Button >
     )
