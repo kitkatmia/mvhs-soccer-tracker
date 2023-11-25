@@ -3,7 +3,6 @@ import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import PlayerCircle from './PlayerCircle';
-import players from "../data/players.json";
 import SaveButton from './SaveButton';
 import "./LineUp.css";
 import playersOnField from '../contexts/GlobalCurrentPlayers';
@@ -22,14 +21,9 @@ const LineUp = (props) => {
 
     useEffect(() => {
         if (saveClicked) {
-            // const toDictionary = (valuesList) => {
-            //     console.log("values list: ", valuesList)
-            //     let d = [];
-            //     for (let i = 0; i < valuesList.length; i++) {
-            //         d = [...d, playersJSON.find(row => Object.keys(row) === valuesList[i])] // JSON STRUCT
-            //     }
-            //     return d;
-            // }
+            if (props.onClick) {
+                props.onClick();
+            }
             const toArrayOfDicts = (names) => {
                 let arr = [];
                 for (let i = 0; i < names.length; i++) {
@@ -39,7 +33,6 @@ const LineUp = (props) => {
                 return arr;
             }
             // toDictionary of selected names = return a list of all names in selected names
-            const fieldArr = toArrayOfDicts(selectedNames);
             playersOnField.setAll(toArrayOfDicts(selectedNames));
         }
     }, [saveClicked, selectedNames])

@@ -7,6 +7,16 @@ import "../App.css"
 // const { augmentColor } = palette;
 // const createColor = (mainColor) => augmentColor({ color: { main: mainColor } });
 const theme = createTheme({
+    components: {
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    borderRadius: 13,
+                    marginBottom: "20px"
+                },
+            },
+        },
+    },
     typography: {
         fontFamily: "'Nunito', sans-serif",
         button: {
@@ -16,8 +26,11 @@ const theme = createTheme({
     palette: {
         primary: {
             main: '#FFCD29', // kipYellow
-            light: '#FFE694' // peeYellow
-        }, secondary: {
+        },
+        secondary: {
+            main: '#FFE694' // peeYellow
+        },
+        accent: {
             main: '#000000', // black
             light: '#757575', // gray
             contrastText: "#fff", // white

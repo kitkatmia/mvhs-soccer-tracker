@@ -21,7 +21,12 @@ function App() {
   const [fileName, setFileName] = useState("test");
 
   const [notStarted, setNotStarted] = useState(true);
+  const [firstHalfLineUpSelected, setfirstHalfLineUpSelected] = useState(false);
   const [paused, setPaused] = useState(false);
+
+  const handleLineUp = () => {
+    setfirstHalfLineUpSelected(true);
+  }
 
   useEffect(() => {
     // clear local storage on app open
@@ -119,6 +124,9 @@ function App() {
         setNotStarted(!notStarted); // don't need to do anything for end_event because there's no event after it
       } else if (lastEvent === process.env.REACT_APP_LINEUP_EVENT_1 || lastEvent === process.env.REACT_APP_LINEUP_EVENT_2) {
         playersOnField.setAll([]); // DEBUG: what happens if you accidently set second half lineup during first half? --> have to redo first half lineup, which is annoying
+        if (lastEvent === process.env.REACT_APP_LINEUP_EVENT_1) {
+          setfirstHalfLineUpSelected(false);
+        }
         console.log("shoulda removed app lineup") // issue: not removing app lineup --> new names are just getting appended
       }
       localStorage.removeItem(lastKey);
@@ -129,23 +137,31 @@ function App() {
   return (
     <ThemeProvider theme={customTheme}>
       <div>
-        <div style={{ display: "flex", alignItems: 'center', justifyContent: "center", background: customTheme.palette.secondary.main }}>
+        <div style={{ display: "flex", alignItems: 'center', justifyContent: "center", background: customTheme.palette.accent.main }}>
           {/* fix spacing so it's dynamic and fits on phone */}
           <img src={spartansLogo} alt="spartans-logo" style={{ width: "70px", height: "70px", marginTop: "10px", marginBottom: "10px" }} />
         </div>
-        <div style={{ display: "flex", alignItems: 'center', justifyContent: "center", background: customTheme.palette.secondary.light, marginBottom: "0px" }}>
-          <h1 style={{ color: customTheme.palette.secondary.contrastText }}>Spartan Soccer Tracking App</h1>
-          {/* <div style={{ gap: "20px" }}>
-            <Button variant="contained" color="primary" onClick={null}>Varisty</Button>
-            <Button variant="contained" color="primary" onClick={null}>JV</Button>
-          </div> */}
+        <div style={{ display: "flex", alignItems: 'center', justifyContent: "center", background: customTheme.palette.accent.light, marginBottom: "0px" }}>
+          <h1 style={{ color: customTheme.palette.accent.contrastText, fontSize: "38px", fontWeight: "semi-bold" }}>Spartan Soccer Tracking App</h1>
         </div>
-        <div style={{ display: "flex", alignItems: 'center', justifyContent: "center", background: customTheme.palette.secondary.light, marginBottom: "20px", paddingBottom: "20px", marginTop: "0px", gap: "80px" }}>
+        <div style={{ display: "flex", alignItems: 'center', justifyContent: "center", background: customTheme.palette.accent.light, marginBottom: "20px", paddingBottom: "20px", marginTop: "0px", gap: "80px" }}>
           {/* DEBUG: need to add onClicks */}
           <Button variant="contained" color="primary" onClick={null} style={{ width: "125px" }}>Varisty</Button>
           <Button variant="contained" color="primary" onClick={null} style={{ width: "125px" }}>JV</Button>
         </div>
-        <Grid container justifyContent="center" alignItems="center" rowSpacing={1}>
+        <div style={{ display: "flex", alignItems: 'center', justifyContent: "center" }}>
+          {!firstHalfLineUpSelected &&
+            <Grid item>
+              <LineUp eventName={process.env.REACT_APP_LINEUP_EVENT_1} type="Select Half 1 Line Up" description="Click to select starters" color="secondary" buttonStyle={{ width: '200px', minWidth: "100px" }} onClick={() => handleLineUp()} />
+            </Grid>
+          }
+          {firstHalfLineUpSelected &&
+            <Grid item>
+              <LineUp eventName={process.env.REACT_APP_LINEUP_EVENT_2} type="Select Half 2 Line Up" description="Click to select starters" color="secondary" buttonStyle={{ width: '200px', minWidth: "100px" }} />
+            </Grid>
+          }
+        </div>
+        <div style={{ display: "flex", alignItems: 'center', justifyContent: "center", gap: "40px" }}>
           {notStarted &&
             <Grid item>
               <TimeButton eventName={process.env.REACT_APP_START_EVENT} onClick={() => handleStartAndStop()} />
@@ -167,14 +183,11 @@ function App() {
             </Grid>
           }
           <Grid item>
-            <LineUp eventName={process.env.REACT_APP_LINEUP_EVENT_1} type="Select First-Half Line Up" description="Click to select starters" color="primary" buttonStyle={{ width: '200px', minWidth: "100px", marginRight: "10vh" }} />
+            <Button variant="contained" color="secondary" style={{ width: "200px" }} onClick={() => handleRevert()}>Revert last action</Button>
           </Grid>
-          <Grid item>
-            <LineUp eventName={process.env.REACT_APP_LINEUP_EVENT_2} type="Select Second-Half Line Up" description="Click to select starters" color="secondary" buttonStyle={{ width: '200px', minWidth: "100px", marginRight: "10vh" }} />
-          </Grid>
-          <Grid item>
-            <Button variant="outlined" color="error" style={{ width: "250px" }} onClick={() => handleRevert()}>Revert last action</Button>
-          </Grid>
+        </div>
+        <Grid container justifyContent="center" alignItems="center" rowSpacing={1}>
+
           <Grid item>
             <DoubleModal eventName={process.env.REACT_APP_GOAL_EVENT} eventName2={process.env.REACT_APP_ASSIST_EVENT} type={process.env.REACT_APP_GOAL_TYPE} descriptionPanel1="Select Goal Scorer" descriptionPanel2="Select assister" color="secondary" buttonStyle={{ width: '200px', minWidth: "100px", marginRight: "10vh" }} />
           </Grid>

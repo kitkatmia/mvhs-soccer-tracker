@@ -19,10 +19,8 @@ class GlobalCurrentPlayers {
             if (isValidLineUp) {
                 this.playersOn = lineUp;
                 for (let i = 0; i < this.goalies.length; i++) {
-                    console.log("doguriogwehrg     ", this.playersOn.map(player => Object.keys(player)[0]))
                     if (this.playersOn.map(player => Object.keys(player)[0]).includes(this.goalies[i])) {
                         this.currentGoalie = this.goalies[i];
-                        console.log('\n\nincludes, new goalies: ', this.currentGoalie, "\n\n")
                         break;
                     }
                 }
