@@ -140,12 +140,12 @@ const DoubleModal = (props) => {
                 <Box sx={style}>
                     <h2 style={{ textAlign: "center", marginTop: 0, marginBottom: 10 }}>{showModal2 ? props.descriptionPanel2 : props.descriptionPanel1}</h2>
                     {/* players */}
-                    <div className={playersScreen1 ? "grid" : ""} style={{}}>
+                    <div className={(Object.keys(playersScreen2).length > 0) ? "grid" : ""} style={{}}>
                         <>
-                            {!showModal2 && playersScreen1 &&
+                            {!showModal2 && Object.keys(playersScreen2).length > 0 &&
                                 <Button variant="contained" color="success" style={{ width: "150px", position: "absolute", right: "0", bottom: "0", marginRight: "20px", marginBottom: "10px" }} onClick={handleForwardClick}>Next</Button>
                             }
-                            {playersScreen1 ? (Object.entries(showModal2 ? playersScreen2 : playersScreen1).map((player, playerIndex) => ( // note: players = [key, value]
+                            {Object.keys(playersScreen2).length > 0 ? (Object.entries(showModal2 ? playersScreen2 : playersScreen1).map((player, playerIndex) => ( // note: players = [key, value]
                                 <div key={playerIndex}>
                                     <PlayerCircle class="grid-item" key={playerIndex} playerName={player[0]} playerImage={player[1]} onClickCallback={showModal2 ? handleScreen2Click : handleScreen1Click} isSelected={showModal2 ? selectedPLayersS2.includes(player[0]) : selectedPLayersS1.includes(player[0])} />
                                 </div>

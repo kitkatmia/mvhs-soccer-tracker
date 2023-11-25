@@ -174,7 +174,7 @@ function App() {
           </Grid>
           <Grid item>
             {/* custom theme example below */}
-            <Button variant="contained" color="violet" onClick={handleGKClick}>GK Save</Button>
+            <Button variant="contained" color="primary" onClick={handleGKClick}>GK Save</Button>
           </Grid>
         </Grid>
       </div >

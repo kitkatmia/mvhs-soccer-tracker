@@ -48,20 +48,11 @@ class GlobalCurrentPlayers {
         return fieldPlayers;
     }
 
-    // checkAndFixListIssue() {
-    //     for (let i = 0; i < this.playersOn.length; i++) {
-    //         console.log("type of obj: ", typeof this.playersOn[i], " for ", this.playersOn[i])
-    //         if (Array.isArray(this.playersOn[i])) {
-    //             this.playersOn[i] = { [this.playersOn[i][0]]: this.playersOn[i][1] }
-    //         }
-    //     }
-    // }
+
     // DEBUG: for some reason, first value of playersOn is null??? when called --> even if this.playersON isn't orginally when setAll is used:(
     swapPlayers(subOutP, subInP) {
         // DEBUG: for some reason if this.playersOn is printed, one of the values is of the format ['Player 6', 'p4.jpeg'], instead of {}, but it still seems to be working for now, and if I try to fix the issue with another function is says it doesn't exist??
-        // this.checkAndFixListIssue()
         const fieldPlayers = this.playersOn.map(player => Object.keys(player)[0]);
-        // console.log("soooo players.ON should be the same: ", this.playersOn)
         const index = fieldPlayers.findIndex(player => player === subOutP);
 
         if (index !== -1) {
@@ -79,33 +70,17 @@ class GlobalCurrentPlayers {
 
     getBenchPlayers() {
         if (this.playersOn.length === 0) {
-            return this.JSONplayers;
+            return JSONplayers;
         }
         const allPlayers = JSONplayers; // note that is a dict of name: img
         const fieldPlayers = this.playersOn.map(player => Object.keys(player)[0]); // note that fieldPLayers is a list of names
         let benchers = []
         for (let key in allPlayers) {
             if (!fieldPlayers.includes(key)) {
-                // benchers = [...benchers, { [key]: allPlayers[key] }]
                 benchers[key] = allPlayers[key]
             }
         }
-        // DEBUG: def way to optimize this using filter
-        // let benchers = [];
-        // for (let i = 0; i < allPlayers.length; i++) {
-        //     if (!fieldPlayers.includes(allPlayers[i])) {
-        //         benchers = [...benchers, allPlayers[i]]
-        //     }
-        // }
-        // console.log("third : ", this.playersOn)
 
-        // // DEBUG: filter it back to get images (super inefficient)
-        // const filteredData = this.JSONplayers.filter(item => {
-        //     const itemName = Object.keys(item)[0];
-        //     return benchers.includes(itemName);
-        // });
-
-        // console.log("fourth : ", this.playersOn)
         console.log("benchers: ", benchers)
         return benchers;
     }

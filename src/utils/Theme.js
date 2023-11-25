@@ -7,10 +7,16 @@ const { augmentColor } = palette;
 const createColor = (mainColor) => augmentColor({ color: { main: mainColor } });
 const theme = createTheme({
     palette: {
-        anger: createColor('#F40B27'),
-        apple: createColor('#5DBA40'),
-        steelBlue: createColor('#5C76B7'),
-        violet: createColor('#BC00A3'),
+        // primary: {
+        //     peeYellow: createColor('#FFE694'),
+        //     kipYellow: createColor('#FFCD29'),
+        // }, secondary: {
+        //     blackLikeMySoul: createColor('#000000'),
+        //     boringGray: createColor('#757575'),
+        //     contrastText: "#fff",
+        // }
+
+
     },
 });
 
