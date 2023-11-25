@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 // data
 import playersOnField from './contexts/GlobalCurrentPlayers';
-import spartansLogo from './images/spartansLogo.png';
+import spartansLogo from './images/trasnpSpartanLogo.png';
 // components
 import Grid from '@mui/material/Grid';
 import LineUp from './components/LineUp';
@@ -129,12 +129,21 @@ function App() {
   return (
     <ThemeProvider theme={customTheme}>
       <div>
-        <div style={{ display: "flex", flexDirection: 'row' }}>
-          <div style={{ alignItems: 'center' }}>
-            {/* fix spacing so it's dynamic and fits on phone */}
-            <img src={spartansLogo} alt="spartans-logo" style={{ width: 50, height: 50, marginRight: 220, marginLeft: 10, marginTop: 10 }} />
-          </div>
-          <h1 style={{ justifyContent: 'center' }}>Spartan Soccer Tracking App</h1>
+        <div style={{ display: "flex", alignItems: 'center', justifyContent: "center", background: customTheme.palette.secondary.main }}>
+          {/* fix spacing so it's dynamic and fits on phone */}
+          <img src={spartansLogo} alt="spartans-logo" style={{ width: "70px", height: "70px", marginTop: "10px", marginBottom: "10px" }} />
+        </div>
+        <div style={{ display: "flex", alignItems: 'center', justifyContent: "center", background: customTheme.palette.secondary.light, marginBottom: "0px" }}>
+          <h1 style={{ color: customTheme.palette.secondary.contrastText }}>Spartan Soccer Tracking App</h1>
+          {/* <div style={{ gap: "20px" }}>
+            <Button variant="contained" color="primary" onClick={null}>Varisty</Button>
+            <Button variant="contained" color="primary" onClick={null}>JV</Button>
+          </div> */}
+        </div>
+        <div style={{ display: "flex", alignItems: 'center', justifyContent: "center", background: customTheme.palette.secondary.light, marginBottom: "20px", paddingBottom: "20px", marginTop: "0px", gap: "80px" }}>
+          {/* DEBUG: need to add onClicks */}
+          <Button variant="contained" color="primary" onClick={null} style={{ width: "125px" }}>Varisty</Button>
+          <Button variant="contained" color="primary" onClick={null} style={{ width: "125px" }}>JV</Button>
         </div>
         <Grid container justifyContent="center" alignItems="center" rowSpacing={1}>
           {notStarted &&
