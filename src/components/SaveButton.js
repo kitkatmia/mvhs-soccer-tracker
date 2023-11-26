@@ -4,7 +4,6 @@ import "./SaveButton.css"
 import recentEvents from '../contexts/GlobalRecentEvents';
 
 
-
 const SaveButton = ({ eventName, event, onClick = null, eventName2 = null, event2 = null, condition = true }) => {
     // DEBUG: does condition need to be there...
     const handleClick = () => {

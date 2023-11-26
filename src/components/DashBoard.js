@@ -23,30 +23,30 @@ const Dashboard = ({ update }) => {
     //         window.removeEventListener('storage-changed', handleStorageChange);
     //     };
     // }, []);
-    useEffect(() => {
-        console.log("runnning \n\n\n")
-        console.log("\n\n events rn: \n", recentEvents.get().reverse())
-        setRecentEventsCatalog(recentEvents.get().reverse());
+    // useEffect(() => {
+    //     // console.log("runnning \n\n\n")
+    //     // console.log("\n\n events rn: \n", recentEvents.get().reverse())
+    //     // setRecentEventsCatalog(recentEvents.get().reverse());
 
-        // Set localStorage item when the component mounts and add storage event listener
-        const handleStorageChange = () => {
-            setRecentEventsCatalog(recentEvents.get().reverse());
-        };
+    //     // Set localStorage item when the component mounts and add storage event listener
+    //     const handleStorageChange = () => {
+    //         setRecentEventsCatalog(recentEvents.get().reverse());
+    //     };
 
-        window.addEventListener('storage-changed', handleStorageChange);
+    //     window.addEventListener('storage-changed', handleStorageChange);
 
-        // Remove the event listener when the component unmounts
-        return () => {
-            window.removeEventListener('storage-changed', handleStorageChange);
-        }
-    }, [update]);
+    //     // Remove the event listener when the component unmounts
+    //     return () => {
+    //         window.removeEventListener('storage-changed', handleStorageChange);
+    //     }
+    // }, [update]);
 
     return (
         <Box style={{
-            width: "600px", height: "200px", background: customTheme.palette.secondary.main, margin: "auto", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"
+            width: "600px", height: "200px", background: customTheme.palette.secondary.main, margin: "auto", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", borderRadius: "8%"
         }}>
             {/* DEBUG: want h1 to be centered but bullet points to be left-aligned */}
-            <h1 style={{ marginTop: "0px", marginBottom: "0" }}>Most recent actions</h1>
+            <h1 style={{ marginTop: "0px", marginBottom: "0", fontSize: "24px" }}>Most recent actions</h1>
             {
                 <ul>
                     {recentEventsCatalog.map((event, index) => (

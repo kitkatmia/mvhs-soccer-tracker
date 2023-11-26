@@ -98,15 +98,15 @@ function App() {
     a.href = url;
     a.download = fileName + '.json';
 
-    // // append the anchor to the body and trigger a click to start the download
-    // document.body.appendChild(a);
-    // a.click();
+    // append the anchor to the body and trigger a click to start the download
+    document.body.appendChild(a);
+    a.click();
 
-    // // remove the temporary anchor
-    // document.body.removeChild(a);
+    // remove the temporary anchor
+    document.body.removeChild(a);
 
-    // // revoke the Blob URL to free up resources
-    // URL.revokeObjectURL(url);
+    // revoke the Blob URL to free up resources
+    URL.revokeObjectURL(url);
   };
 
   const handlePause = () => {
@@ -150,7 +150,7 @@ function App() {
         </div>
         <div style={{ display: "flex", alignItems: 'center', justifyContent: "center", background: customTheme.palette.accent.light, marginBottom: "20px", paddingBottom: "20px", marginTop: "0px", gap: "80px" }}>
           {/* DEBUG: need to add onClicks */}
-          <Button variant="contained" color="primary" onClick={null} style={{ width: "125px" }}>Varisty</Button>
+          <Button variant="contained" color="primary" onClick={null} style={{ width: "125px" }}>Varsity</Button>
           <Button variant="contained" color="primary" onClick={null} style={{ width: "125px" }}>JV</Button>
         </div>
         <div style={{ display: "flex", alignItems: 'center', justifyContent: "center" }}>
@@ -165,7 +165,7 @@ function App() {
             </Grid>
           }
         </div>
-        <div style={{ display: "flex", alignItems: 'center', justifyContent: "center", gap: "40px" }}>
+        <div style={{ display: "flex", alignItems: 'center', justifyContent: "center", gap: "40px", marginBottom: "40px" }}>
           {notStarted &&
             <Grid item>
               <TimeButton eventName={process.env.REACT_APP_START_EVENT} onClick={() => handleStartAndStop()} />
@@ -190,19 +190,18 @@ function App() {
             <Button variant="contained" color="secondary" style={{ width: "200px" }} onClick={() => handleRevert()}>Revert last action</Button>
           </Grid>
         </div>
-        <Grid container justifyContent="center" alignItems="center" rowSpacing={1}>
-
+        <div style={{ display: "flex", alignItems: 'center', justifyContent: "center", gap: "55px", marginBottom: "100px" }}>
           <Grid item>
-            <DoubleModal eventName={process.env.REACT_APP_GOAL_EVENT} eventName2={process.env.REACT_APP_ASSIST_EVENT} type={process.env.REACT_APP_GOAL_TYPE} descriptionPanel1="Select Goal Scorer" descriptionPanel2="Select assister" color="secondary" buttonStyle={{ width: '200px', minWidth: "100px", marginRight: "10vh" }} />
+            <DoubleModal eventName={process.env.REACT_APP_GOAL_EVENT} eventName2={process.env.REACT_APP_ASSIST_EVENT} type={process.env.REACT_APP_GOAL_TYPE} descriptionPanel1="Select Goal Scorer" descriptionPanel2="Select assister" color="accent" buttonStyle={{ width: "180px", height: "280px", borderColor: customTheme.palette.primary.main, borderWidth: "10px", borderStyle: "solid", borderRadius: "20%", fontSize: "36px", textTransform: "uppercase" }} />
           </Grid>
           <Grid item>
-            <DoubleModal eventName={process.env.REACT_APP_SUB_IN_EVENT} eventName2={process.env.REACT_APP_SUB_OUT_EVENT} type={process.env.REACT_APP_SUB_TYPE} descriptionPanel1="Select Player to Sub In" descriptionPanel2="Select Player to Sub Out" color="secondary" buttonStyle={{ width: '200px', minWidth: "100px", marginRight: "10vh" }} />
+            <DoubleModal eventName={process.env.REACT_APP_SUB_IN_EVENT} eventName2={process.env.REACT_APP_SUB_OUT_EVENT} type={process.env.REACT_APP_SUB_TYPE} descriptionPanel1="Select Player to Sub In" descriptionPanel2="Select Player to Sub Out" color="accent" buttonStyle={{ width: "180px", height: "280px", borderColor: customTheme.palette.primary.main, borderWidth: "10px", borderStyle: "solid", borderRadius: "20%", fontSize: "36px", textTransform: "uppercase" }} />
           </Grid>
           <Grid item>
             {/* custom theme example below */}
-            <Button variant="contained" color="primary" onClick={handleGKClick}>GK Save</Button>
+            <Button variant="contained" color="accent" onClick={handleGKClick} style={{ width: "180px", height: "280px", borderColor: customTheme.palette.primary.main, borderWidth: "10px", borderStyle: "solid", borderRadius: "20%", fontSize: "36px", textTransform: "uppercase" }}>Save</Button>
           </Grid>
-        </Grid>
+        </div>
         <Dashboard update={dashboardUpdate} />
       </div >
     </ThemeProvider>
