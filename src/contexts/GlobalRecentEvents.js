@@ -1,6 +1,5 @@
 class GlobalRecentEvents {
     constructor() {
-        console.log('well well well why am I being called')
         this.mostRecentEvents = ["No event yet", "No event yet", "No event yet"] // DEBUG: not optimized to revert yet...
     }
 

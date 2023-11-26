@@ -1,4 +1,5 @@
 import { React } from 'react';
+import customTheme from '../utils/Theme.js'
 
 const PlayerCircle = ({ playerName, playerImage, onClickCallback, isSelected = false }) => {
     // is selected was default true
@@ -13,18 +14,18 @@ const PlayerCircle = ({ playerName, playerImage, onClickCallback, isSelected = f
         borderRadius: "50%",
         width: 40,
         height: 40,
-        marginTop: 15,
+        marginTop: 5,
         padding: "3px",
-        border: isSelected ? "5px solid red" : "5px solid transparent",
+        border: isSelected ? `5px solid ${customTheme.palette.primary.main}` : "5px solid transparent",
     };
 
     const imgUrl = process.env.PUBLIC_URL + '/images/' + playerImage;
     return (
         <div
-            style={{ verticalAlign: "top", display: "inline-block", textAlign: "center" }}
+            style={{ verticalAlign: "top", display: "inline-block", textAlign: "center", marginBottom: 30 }}
         >
             <img src={imgUrl} alt={playerName} style={buttonStyle} onClick={handleClick} />
-            <div style={{ marginBottom: 10 }}>
+            <div style={{}}>
                 {playerName}
             </div>
         </div >

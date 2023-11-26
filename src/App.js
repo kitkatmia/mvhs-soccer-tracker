@@ -21,7 +21,7 @@ function App() {
   const [date, setDate] = useState("Null");
   const [fileName, setFileName] = useState("test");
 
-  const [notStarted, setNotStarted] = useState(true);
+  const [gameStatus, setGameStatus] = useState(process.env.REACT_APP_NEW_GAME_EVENT); // if 
   const [firstHalfLineUpSelected, setfirstHalfLineUpSelected] = useState(false);
   const [paused, setPaused] = useState(false);
 
@@ -32,9 +32,6 @@ function App() {
   }
 
   useEffect(() => {
-    // clear local storage on app open
-    localStorage.clear();
-
     const fetchData = async () => {
       try {
         setData(gameDates);
@@ -57,11 +54,22 @@ function App() {
   }, [date, data]); // keep dependencies!! --> otherwise this runs after you click button and eareses events :(
 
   const handleStartAndStop = () => {
-    if (notStarted) {
-      setNotStarted(false);
-    } else {
+    if (gameStatus === process.env.REACT_APP_START_EVENT) {
+      setGameStatus(process.env.REACT_APP_END_EVENT);
+    } else if (gameStatus === process.env.REACT_APP_END_EVENT) {
+      setGameStatus(process.env.REACT_APP_NEW_GAME_EVENT)
+    } else if (gameStatus === process.env.REACT_APP_NEW_GAME_EVENT) {
       downloadLocalStorage();
+      fullReset();
     }
+  }
+
+  const fullReset = () => {
+    console.log("running full reset") // reset all buttons, clear local storage
+    setGameStatus(process.env.REACT_APP_START_EVENT);
+    setfirstHalfLineUpSelected(false);
+    setPaused(false);
+    localStorage.clear(); // clear local storage
   }
 
   const handleGKClick = () => {
@@ -125,7 +133,7 @@ function App() {
       if (lastEvent === process.env.REACT_APP_PAUSE_EVENT || lastEvent === process.env.REACT_APP_UNPAUSE_EVENT) {
         handlePause();
       } else if (lastEvent === process.env.REACT_APP_START_EVENT) {
-        setNotStarted(!notStarted); // don't need to do anything for end_event because there's no event after it
+        setGameStatus(!gameStatus); // don't need to do anything for end_event because there's no event after it
       } else if (lastEvent === process.env.REACT_APP_LINEUP_EVENT_1 || lastEvent === process.env.REACT_APP_LINEUP_EVENT_2) {
         playersOnField.setAll([]); // DEBUG: what happens if you accidently set second half lineup during first half? --> have to redo first half lineup, which is annoying
         if (lastEvent === process.env.REACT_APP_LINEUP_EVENT_1) {
@@ -166,14 +174,19 @@ function App() {
           }
         </div>
         <div style={{ display: "flex", alignItems: 'center', justifyContent: "center", gap: "40px", marginBottom: "40px" }}>
-          {notStarted &&
+          {gameStatus === process.env.REACT_APP_START_EVENT &&
             <Grid item>
               <TimeButton eventName={process.env.REACT_APP_START_EVENT} onClick={() => handleStartAndStop()} />
             </Grid>
           }
-          {!notStarted &&
+          {gameStatus === process.env.REACT_APP_END_EVENT &&
             <Grid item>
               <TimeButton eventName={process.env.REACT_APP_END_EVENT} onClick={() => handleStartAndStop()} />
+            </Grid>
+          }
+          {gameStatus === process.env.REACT_APP_NEW_GAME_EVENT &&
+            <Grid item>
+              <Button variant="contained" color="secondary" style={{ width: '200px', minWidth: "100px" }} onClick={() => handleStartAndStop()} >{process.env.REACT_APP_NEW_GAME_EVENT}</Button>
             </Grid>
           }
           {!paused &&
