@@ -57,9 +57,9 @@ function App() {
     if (gameStatus === process.env.REACT_APP_START_EVENT) {
       setGameStatus(process.env.REACT_APP_END_EVENT);
     } else if (gameStatus === process.env.REACT_APP_END_EVENT) {
+      downloadLocalStorage();
       setGameStatus(process.env.REACT_APP_NEW_GAME_EVENT)
     } else if (gameStatus === process.env.REACT_APP_NEW_GAME_EVENT) {
-      downloadLocalStorage();
       fullReset();
     }
   }
