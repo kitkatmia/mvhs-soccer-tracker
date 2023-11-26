@@ -11,8 +11,8 @@ const PlayerCircle = ({ playerName, playerImage, onClickCallback, isSelected = f
 
     const buttonStyle = {
         borderRadius: "50%",
-        width: 50,
-        height: 50,
+        width: 40,
+        height: 40,
         marginTop: 15,
         padding: "3px",
         border: isSelected ? "5px solid red" : "5px solid transparent",
@@ -24,7 +24,7 @@ const PlayerCircle = ({ playerName, playerImage, onClickCallback, isSelected = f
             style={{ verticalAlign: "top", display: "inline-block", textAlign: "center" }}
         >
             <img src={imgUrl} alt={playerName} style={buttonStyle} onClick={handleClick} />
-            <div style={{ marginBottom: 40 }}>
+            <div style={{ marginBottom: 10 }}>
                 {playerName}
             </div>
         </div >

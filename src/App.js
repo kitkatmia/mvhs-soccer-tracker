@@ -187,7 +187,7 @@ function App() {
             </Grid>
           }
           <Grid item>
-            <Button variant="contained" color="secondary" style={{ width: "200px" }} onClick={() => handleRevert()}>Revert last action</Button>
+            <Button variant="contained" color="secondary" style={{ width: "200px" }} onClick={() => handleRevert()}>Undo</Button>
           </Grid>
         </div>
         <div style={{ display: "flex", alignItems: 'center', justifyContent: "center", gap: "55px", marginBottom: "100px" }}>
