@@ -125,11 +125,11 @@ function App() {
   const handleRevert = () => {
     if (localStorage.length > 0) {
       const keys = Object.keys(localStorage).map(Number);
-      console.log("ekys: ", keys)
+      // console.log("ekys: ", keys)
       // get most recent time (last action)
       const lastKey = Math.max(...keys);
       const lastEvent = JSON.parse(localStorage.getItem(lastKey))["Event"];
-      console.log("eky: ", lastEvent)
+      // console.log("eky: ", lastEvent)
       if (lastEvent === process.env.REACT_APP_PAUSE_EVENT || lastEvent === process.env.REACT_APP_UNPAUSE_EVENT) {
         handlePause();
       } else if (lastEvent === process.env.REACT_APP_START_EVENT) {
