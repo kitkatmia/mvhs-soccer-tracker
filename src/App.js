@@ -10,6 +10,7 @@ import gameDates from "./data/game_dates.json";
 import TimeButton from './components/TimeButton';
 import { Button } from '@mui/material';
 import DoubleModal from './components/DoubleModal';
+import Dashboard from './components/DashBoard.js';
 // theme
 import { ThemeProvider } from '@mui/material/styles';
 import customTheme from "./utils/Theme.js"
@@ -24,6 +25,8 @@ function App() {
   const [firstHalfLineUpSelected, setfirstHalfLineUpSelected] = useState(false);
   const [paused, setPaused] = useState(false);
 
+  // new state to trigger Dashboard re-render
+  const [dashboardUpdate, setDashboardUpdate] = useState(false);
   const handleLineUp = () => {
     setfirstHalfLineUpSelected(true);
   }
@@ -69,6 +72,7 @@ function App() {
       console.log("In app.js button. Saving gk event: ")
       console.log("key: ", localStorage.key(i), " val: ", localStorage.getItem(localStorage.key(i)))
     }
+    setDashboardUpdate(prev => !prev);
   }
 
   const downloadLocalStorage = () => {
@@ -199,6 +203,7 @@ function App() {
             <Button variant="contained" color="primary" onClick={handleGKClick}>GK Save</Button>
           </Grid>
         </Grid>
+        <Dashboard update={dashboardUpdate} />
       </div >
     </ThemeProvider>
   );

@@ -1,6 +1,7 @@
 import { React } from 'react';
 import Button from '@mui/material/Button';
 import "./SaveButton.css"
+import recentEvents from '../contexts/GlobalRecentEvents';
 
 
 
@@ -17,6 +18,8 @@ const SaveButton = ({ eventName, event, onClick = null, eventName2 = null, event
         const timestamp = new Date().getTime()
         const jsonData = { "Event": eventName, "Description": event };
         localStorage.setItem(timestamp, JSON.stringify(jsonData));
+        // for dashboatd
+        recentEvents.addNewEvent(timestamp, jsonData);
         if (eventName2) {
             const jsonData2 = { "Event": eventName2, "Description": event2 };
             localStorage.setItem(timestamp + 1, JSON.stringify(jsonData2)); // plus 1 = add 1 millisecond since time is the key --> otherwise goal will be overwritten and not saved... :(

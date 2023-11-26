@@ -1,32 +1,47 @@
-import { React } from 'react';
-import Button from '@mui/material/Button';
+import { React, useEffect, useState } from 'react';
+import Box from '@mui/system/Box';
 import "./SaveButton.css"
-import { Dashboard } from '@mui/icons-material';
+import customTheme from "../utils/Theme.js"
+import recentEvents from '../contexts/GlobalRecentEvents';
 
 
+const Dashboard = ({ update }) => {
+    const [recentEventsCatalog, setRecentEventsCatalog] = useState(recentEvents.get().reverse()); // to get most recent events from the top
 
-const Dashboard = ({ eventName, event, onClick, eventName2 = null, event2 = null }) => {
-    const handleClick = () => {
-        console.log("eventname: ", eventName, " event: ", event)
-        console.log("eventname2: ", eventName2, " event: ", event2)
-        onClick();
-        const timestamp = new Date().getTime()
-        const jsonData = { "Event": eventName, "Description": event };
-        localStorage.setItem(timestamp, JSON.stringify(jsonData));
-        if (eventName2) {
-            const jsonData2 = { "Event": eventName2, "Description": event2 };
-            localStorage.setItem(timestamp + 1, JSON.stringify(jsonData2)); // plus 1 = add 1 millisecond since time is the key --> otherwise goal will be overwritten and not saved... :(
+    useEffect(() => {
+        console.log("runnning \n\n\n")
+        console.log("\n\n events rn: \n", recentEvents.get().reverse())
+        setRecentEventsCatalog(recentEvents.get().reverse());
+
+        // Set localStorage item when the component mounts and add storage event listener
+        const handleStorageChange = () => {
+            setRecentEventsCatalog(recentEvents.get().reverse());
+        };
+
+        window.addEventListener('storage-changed', handleStorageChange);
+
+        // Remove the event listener when the component unmounts
+        return () => {
+            window.removeEventListener('storage-changed', handleStorageChange);
         }
-        for (var i = 0; i < localStorage.length; i++) {
-            console.log("In save button. Saving: ")
-            console.log("key: ", localStorage.key(i), " val: ", localStorage.getItem(localStorage.key(i)))
-        }
-    };
+    }, [update]);
 
     return (
-        <Button variant="contained" color="success" style={{ width: "150px", position: "absolute", right: "0", bottom: "0", marginRight: "20px", marginBottom: "10px" }} className="lineup" onClick={handleClick}>
-            Save Changes
-        </Button >
+        <Box style={{
+            width: "600px", height: "200px", background: customTheme.palette.secondary.main, margin: "auto", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"
+        }}>
+            {/* DEBUG: want h1 to be centered but bullet points to be left-aligned */}
+            <h1 style={{ marginTop: "0px", marginBottom: "0" }}>Most recent actions</h1>
+            {
+                <ul>
+                    {recentEventsCatalog.map((event, index) => (
+                        <li key={index} style={{ fontSize: "18px" }}>
+                            {event}
+                        </li>
+                    ))}
+                </ul>
+            }
+        </Box >
     )
 }
 
