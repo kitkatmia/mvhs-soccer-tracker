@@ -19,26 +19,15 @@ class GlobalRecentEvents {
             data = data + " - " + eventData["Description"];
         }
 
-        console.log("shoudl eb runnign")
+        console.log("shoudl eb runnign addNewEvent (previosu is: ", this.mostRecentEvents)
         const combinedString = pstTimeString + " - " + data;
 
         // DEBUG: not working???????
 
-        this.mostRecentEvents[0] = this.mostRecentEvents[1]
-        this.mostRecentEvents[1] = this.mostRecentEvents[2];
-        this.mostRecentEvents[2] = combinedString
-
-        // this.mostRecentEvents.push(combinedString);
-        // console.log("pushed, ", this.mostRecentEvents)
-        // if (this.mostRecentEvents.length > 3) {
-        //     this.mostRecentEvents.shift();
-        //     console.log("shifted, ", this.mostRecentEvents)
-
-        // }
-        // console.log('new data added, now: ', this.mostRecentEvents)
-
-        // dispatch event:
-        window.dispatchEvent(new Event("storage-changed"));
+        if (this.mostRecentEvents.length === 3) {
+            this.mostRecentEvents.shift(); // remove the first element
+        }
+        this.mostRecentEvents.push(combinedString);
     }
 
     get() {

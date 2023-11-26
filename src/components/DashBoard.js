@@ -8,6 +8,21 @@ import recentEvents from '../contexts/GlobalRecentEvents';
 const Dashboard = ({ update }) => {
     const [recentEventsCatalog, setRecentEventsCatalog] = useState(recentEvents.get().reverse()); // to get most recent events from the top
 
+    // useEffect(() => {
+    //     console.log("running")
+    //     const handleStorageChange = () => {
+    //         // Refetch the data from local storage and update the state
+    //         setRecentEventsCatalog(recentEvents.get().reverse());
+    //     };
+
+    //     // Add an event listener for the `storage-changed` event
+    //     window.addEventListener('storage-changed', handleStorageChange);
+
+    //     // Clean up the event listener when the component unmounts
+    //     return () => {
+    //         window.removeEventListener('storage-changed', handleStorageChange);
+    //     };
+    // }, []);
     useEffect(() => {
         console.log("runnning \n\n\n")
         console.log("\n\n events rn: \n", recentEvents.get().reverse())

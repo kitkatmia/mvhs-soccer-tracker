@@ -20,6 +20,11 @@ const SaveButton = ({ eventName, event, onClick = null, eventName2 = null, event
         localStorage.setItem(timestamp, JSON.stringify(jsonData));
         // for dashboatd
         recentEvents.addNewEvent(timestamp, jsonData);
+        // try
+        // window.addEventListener('storage-changed', (event) => {
+        //     console.log('Storage changed:', event);
+        // });
+
         if (eventName2) {
             const jsonData2 = { "Event": eventName2, "Description": event2 };
             localStorage.setItem(timestamp + 1, JSON.stringify(jsonData2)); // plus 1 = add 1 millisecond since time is the key --> otherwise goal will be overwritten and not saved... :(
