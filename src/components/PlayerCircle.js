@@ -12,9 +12,8 @@ const PlayerCircle = ({ playerName, playerImage, onClickCallback, isSelected = f
 
     const buttonStyle = {
         borderRadius: "50%",
-        width: 40,
-        height: 40,
-        marginTop: 5,
+        width: 55,
+        height: 55,
         padding: "3px",
         border: isSelected ? `5px solid ${customTheme.palette.primary.main}` : "5px solid transparent",
     };
@@ -22,7 +21,7 @@ const PlayerCircle = ({ playerName, playerImage, onClickCallback, isSelected = f
     const imgUrl = process.env.PUBLIC_URL + '/images/' + playerImage;
     return (
         <div
-            style={{ verticalAlign: "top", display: "inline-block", textAlign: "center", marginBottom: 30 }}
+            style={{ verticalAlign: "top", display: "inline-block", textAlign: "center", marginBottom: 25 }}
         >
             <img src={imgUrl} alt={playerName} style={buttonStyle} onClick={handleClick} />
             <div style={{}}>
