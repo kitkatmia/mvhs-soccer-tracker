@@ -56,7 +56,7 @@ const LineUp = (props) => {
         top: '25%',
         left: '50%',
         transform: 'translate(-50%, -25%)',
-        width: 600,
+        width: 650,
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 24,

@@ -21,7 +21,7 @@ const PlayerCircle = ({ playerName, playerImage, onClickCallback, isSelected = f
     const imgUrl = process.env.PUBLIC_URL + '/images/' + playerImage;
     return (
         <div
-            style={{ verticalAlign: "top", display: "inline-block", textAlign: "center", marginBottom: 25 }}
+            style={{ verticalAlign: "top", display: "inline-block", textAlign: "center", marginBottom: 35 }}
         >
             <img src={imgUrl} alt={playerName} style={buttonStyle} onClick={handleClick} />
             <div style={{}}>
