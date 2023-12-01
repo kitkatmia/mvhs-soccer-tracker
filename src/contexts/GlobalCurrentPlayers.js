@@ -4,8 +4,8 @@ class GlobalCurrentPlayers {
     constructor() {
         // DEBUG: currentGoalie isn't updating
         this.playersOn = [];
-        this.goalies = ["Player 1", "Player 2"];
-        this.currentGoalie = "Player 1";
+        this.goalies = ["Scar W - 1"];
+        this.currentGoalie = "Scar W - 1";
     }
 
     getGoalie() {
