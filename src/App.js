@@ -11,6 +11,7 @@ import TimeButton from './components/TimeButton';
 import { Button } from '@mui/material';
 import DoubleModal from './components/DoubleModal';
 import Dashboard from './components/DashBoard.js';
+import ButtonRadioModal from './components/ButtonRadioModal.js';
 // theme
 import { ThemeProvider } from '@mui/material/styles';
 import customTheme from "./utils/Theme.js"
@@ -161,7 +162,7 @@ function App() {
           <Button variant="contained" color="primary" onClick={null} style={{ width: "125px" }}>Varsity</Button>
           <Button variant="contained" color="primary" onClick={null} style={{ width: "125px" }}>JV</Button>
         </div>
-        <div style={{ display: "flex", alignItems: 'center', justifyContent: "center" }}>
+        <div style={{ display: "flex", alignItems: 'center', justifyContent: "center", gap: "40px" }}>
           {!firstHalfLineUpSelected &&
             <Grid item>
               <LineUp eventName={process.env.REACT_APP_LINEUP_EVENT_1} type="Select Half 1 Line Up" description="Click to select starters" color="secondary" buttonStyle={{ width: '200px', minWidth: "100px" }} onClick={() => handleLineUp()} />
@@ -172,6 +173,7 @@ function App() {
               <LineUp eventName={process.env.REACT_APP_LINEUP_EVENT_2} type="Select Half 2 Line Up" description="Click to select starters" color="secondary" buttonStyle={{ width: '200px', minWidth: "100px" }} />
             </Grid>
           }
+          <ButtonRadioModal type="Select Opp Action" description="Click to select opp action" color="secondary" buttonStyle={{ width: '200px', minWidth: "100px" }} />
         </div>
         <div style={{ display: "flex", alignItems: 'center', justifyContent: "center", gap: "40px", marginBottom: "40px" }}>
           {gameStatus === process.env.REACT_APP_START_EVENT &&
